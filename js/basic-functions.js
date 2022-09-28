@@ -353,15 +353,30 @@ function new_window() {
 }
 
 /**
- * Cambios de imagen de fondo
+ * Cambios de imagen de fondo (con transiciones)
  */
 function change_background_image() {
     
     //Generamos un entero aleatorio entre 0 y 7
     var random = Math.floor( Math.random() * 8 );
 
-    console.log("url('img/bg0" + random + ".webp') no-repeat center center fixed");
+    console.log('background-image: url("css/img/bg0' + random + '.webp")');
     //document.body.style.background( "url('img/bg0" + random + ".webp') no-repeat center center fixed" );
+    document.getElementById('loading').style["background-image"] = 'url("css/img/bg0' + random + '.webp")';
+    // document.getElementById('black').classList.add('close');
+    setTimeout(() => {
+        document.getElementById('black').classList.add('close');
+    }, 50)
+    setTimeout(() => {
+        document.getElementById('black').style.display = 'none';
+    }, 350)
+    setTimeout(() => {
+        document.getElementById('loading').classList.add('close');
+    }, 200)
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+    }, 700)
+    
     document.body.style["background-image"] = 'url("css/img/bg0' + random + '.webp")';
 }
 
