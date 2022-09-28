@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>Calculadora</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/general.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+</head>
+
+<body id="body">
+    <!-- Modal history -->
+    <div id="history_modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span onclick="close_modal()" class="modal-close">&times;</span>
+                <h2>Historial</h2>
+            </div>
+            <div class="modal-body">
+                <pre id="history_data">Sin historial</pre>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div id="calculadora">
+            <div id="displayZone">
+                <div id="extras">
+                    <span>DEC</span>
+                    <span style="float: right;">
+                        <a id="history" href="javascript:show_history()">
+                            <img src="css/img/history-icon.svg" width="18" />
+                        </a>
+                    </span>
+                    <span style="float: right;">
+                        <a id="new_window" href="javascript:new_window()">&#8673;</a>
+                    </span>
+                </div>
+                <textarea disabled id="display" rows="3"></textarea>
+            </div>
+            <button id="ac">AC</button>
+            <button id="dividir">&div;</button>
+            <button id="multiplicar">&times;</button>
+            <button id="restar">-</button>
+            <button id="siete">7</button>
+            <button id="ocho">8</button>
+            <button id="nueve">9</button>
+            <button id="sumar">+</button>
+            <button id="cuatro">4</button>
+            <button id="cinco">5</button>
+            <button id="seis">6</button>
+            <button id="uno">1</button>
+            <button id="dos">2</button>
+            <button id="tres">3</button>
+            <button id="igual">=</button>
+            <button id="cero">0</button>
+            <button id="coma">,</button>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://miguelcarmona.com"><h3>by Miguel Carmona</h3></a>
+    </footer>
+</body>
+<script src="js/basic-functions.js" type="text/javascript"></script>
+</html>
