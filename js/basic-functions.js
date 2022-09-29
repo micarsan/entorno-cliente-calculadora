@@ -242,7 +242,6 @@ function ac(history_clear = true) {
     if (history_clear) {
         history = '';
         document.getElementById('history').classList.remove('active');
-        document.getElementById('history_data').innerHTML = 'Sin historial';
     }
     //location.reload();
 }
