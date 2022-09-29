@@ -283,6 +283,10 @@ footer a:hover span::before {
     -webkit-transition: opacity 0.5s;
 }
 
+.modal a {
+    text-decoration: underline;
+}
+
 .modal.active {
     opacity: 1;
 }

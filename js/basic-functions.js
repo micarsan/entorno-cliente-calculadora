@@ -319,6 +319,14 @@ function on_resize() {
 }
 
 
+
+
+/**
+ * ===== a partir de aquí, estética e interacción con la UI ======
+ */
+
+
+
 /**
  * Modal
  */
@@ -384,7 +392,7 @@ function show_history() {
     let header = 'Acerca de';
     let body =    '<p style="margin-top: 0;">Disfrute de un nuevo fondo cada vez que cargue la página.</p>' 
                 + '<p style="margin-bottom: 0;">Aprecie las transiciones:</p>'
-                    + '<ul style="margin-top: 0;"><li>Al cargar la página.</li><li>Al redimensionar.</li><li>Sobre la barra inferior.</li><li>Al mostrar este modal.</li><li>Y otras más...</li></ul>'
+                    + '<ul style="margin-top: 0;"><li>Al cargar la página.</li><li>Al redimensionar.</li><li>El corazón de la barra inferior.</li><li>Al mostrar este modal.</li><li>Y otras más...</li></ul>'
                 + '<p>Puede utilizar el ratón pero, para su comodidad, utilice el teclado.</p>'
                 + '<p><a href="https://github.com/micarsan/entorno-cliente-calculadora">Código en github</a><br><a href="http://miguelcarmona.com">Sobre mi</a></p>'
                 + '<p>Licenciado bajo GNU/GPL2 (siéntase libre de usar el código).</p>'
