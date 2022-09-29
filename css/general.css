@@ -120,7 +120,7 @@ a {
     text-align: right;
     padding: 5px;
     resize: none;
-    overflow: hidden;
+    overflow: auto;
     background-color: transparent;
 }
 

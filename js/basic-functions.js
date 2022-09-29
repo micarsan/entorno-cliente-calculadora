@@ -24,10 +24,13 @@ window.addEventListener("resize", on_resize);
 //ejecuciones cuando cargue la página
 function windows_load() {
     
-    //ajustamos al centro la calculadora y demás
+    // Cargamos fondo y transiciones
+    change_background_image();
+    
+    // Ajustamos al centro centro el contenido
     on_resize();
     
-    //animamos el icono de información tras 1 segundo
+    // Animamos el icono de información tras 1 segundo
     setTimeout(() => {
         document.getElementById('info').classList.add('animate');
     }, 1000);
@@ -219,20 +222,23 @@ function display_add(caracter) {
                     }
                 }
 
-                //si es un operador, insertamos un salto de línea
+                // Comprobamos si es un operador
                 for (let operadores_signos_line of operadores_signos) {
                     if (caracter == operadores_signos_line) {
                         is_operator = true;
                     }
                 }
 
+                // Volvemos a partir por el retorno de carro para separar operandos
+                value_split = display_value.split("\n");
+
                 //comprobamos si ya hay algún decimal (en el último número introducido)
-                for (let element2 of decimales) {
-                    if (caracter == element2) {
+                for (let decimales_line of decimales) {
+                    if (caracter == decimales_line) {
                         value_decimal = true;
                     }
-                    if (element == element2 && value_split[value_split.length - 1].indexOf(',') > 0) {
-                        if (debug) console.log('decimal encontrado: ' + element2);
+                    if (element == decimales_line && value_split[value_split.length - 1].indexOf(',') > 0) {
+                        if (debug) console.log('decimal encontrado: ' + decimales_line);
                         decimal_found = true;
                         break;
                     }
@@ -340,6 +346,7 @@ function ac(history_clear = true) {
         document.getElementById('history').classList.remove('active');
     }
 }
+
 function dividir() {
     display_add('/');
 }
@@ -391,35 +398,32 @@ function cero() {
 
 
 /**
- * Ajustar la posición de la calculadora (centrala)
+ * ======= a partir de aquí, estética e interacción con la UI ========
  */
-
-let calculadora = document.getElementById('calculadora');
-
-//para reajustar la posición de la calculadora siempre al centro
-function on_resize() {
-
-    if (debug) console.log('on_resize launched');
-
-    let calculadora_position = document.getElementById('calculadora').getBoundingClientRect();
-
-    //Calculamos el alto y centramos:
-    calculadora.style.position = 'absolute';
-    calculadora.style.left = (window.innerWidth - calculadora_position['width']) / 2 + 'px';
-    calculadora.style.top = (window.innerHeight - 26 - calculadora_position['height']) / 2 + 'px';
-
-    reajusta_modal();
-}
-
-
 
 
 /**
- * ===== a partir de aquí, estética e interacción con la UI ======
+ * Ajustar la posición de la calculadora (centrala)
  */
 
+ let calculadora = document.getElementById('calculadora');
 
-
+ //para reajustar la posición de la calculadora siempre al centro
+ function on_resize() {
+ 
+     if (debug) console.log('on_resize launched');
+ 
+     let calculadora_position = document.getElementById('calculadora').getBoundingClientRect();
+ 
+     //Calculamos el alto y centramos:
+     calculadora.style.position = 'absolute';
+     calculadora.style.left = (window.innerWidth - calculadora_position['width']) / 2 + 'px';
+     calculadora.style.top = (window.innerHeight - 26 - calculadora_position['height']) / 2 + 'px';
+ 
+     reajusta_modal();
+ }
+ 
+ 
 /**
  * Modal
  */
@@ -486,13 +490,12 @@ function show_history() {
     let body =    '<p style="margin-top: 0;">Disfrute de un nuevo fondo cada vez que cargue la página.</p>' 
                 + '<p style="margin-bottom: 0;">Aprecie las transiciones:</p>'
                     + '<ul style="margin-top: 0;"><li>Al cargar la página.</li><li>Al redimensionar.</li><li>El corazón de la barra inferior.</li><li>Al mostrar este modal.</li><li>Y otras más...</li></ul>'
-                + '<p>Puede utilizar el ratón pero, para su comodidad, utilice el teclado.</p>'
+                + '<p>Puede utilizar el ratón pero, para su comodidad, utilice el teclado (la tecla retroceso borra &#128521;).</p>'
                 + '<p><a href="https://github.com/micarsan/entorno-cliente-calculadora">Código en github</a><br><a href="http://miguelcarmona.com">Sobre mi</a></p>'
-                + '<p>Licenciado bajo GNU/GPL2 (siéntase libre de usar el código).</p>'
+                + '<p>Licencia MIT.</p>'
                 + '<p>Imágenes con <a href="https://unsplash.com/es/licencia">licencia copyleft unsplash</a>.</p>';
 
     show_modal(header, body);
-
 }
 
 
@@ -539,15 +542,19 @@ function change_background_image() {
     console.log('random: ' + random);
 
     console.log('background-image: url("css/img/bg0' + random + '.webp")');
-    //document.body.style.background( "url('img/bg0" + random + ".webp') no-repeat center center fixed" );
+
     document.getElementById('loading').style["background-image"] = 'url("css/img/bg' + random + '.webp")';
-    // document.getElementById('black').classList.add('close');
+
+
+    /// Animaciones de carga de contenido
+
     setTimeout(() => {
         document.getElementById('black').classList.add('close');
     }, 50);
     setTimeout(() => {
         document.getElementById('black').style.display = 'none';
     }, 350);
+
     setTimeout(() => {
         document.getElementById('loading').classList.add('close');
     }, 200);
@@ -557,5 +564,3 @@ function change_background_image() {
 
     document.body.style["background-image"] = 'url("css/img/bg' + random + '.webp")';
 }
-
-change_background_image();
