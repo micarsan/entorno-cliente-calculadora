@@ -1,2 +1,2 @@
-# entorno-cliente-claculadora
+# entorno-cliente-calculadora
 Ejemplo de calculadora javascript
