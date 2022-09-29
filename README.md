@@ -3,11 +3,13 @@
   Calculadora
 </h1>
 
-<h4 align="center">Una calculadora creada sobre javascript, css y html.</h4>
+<h4 align="center">Una calculadora creada sobre javascript, css y html para aprendizaje con js en DAW.</h4>
+<p align="center">Por favor, se trata de un código nóvel por lo que no estará exento de errores. Utilícelo con cuidado.</p>
+
 
 <p align="center">
-  <a href="#detalles">Detalles</a>
-  <a href="#autor">Autor</a>
+  <a href="#detalles">Detalles</a> •
+  <a href="#autor">Autor</a> •
   <a href="#licencia">Licencia</a>
 </p>
 
