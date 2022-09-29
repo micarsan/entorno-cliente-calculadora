@@ -146,10 +146,10 @@ function display_add(caracter) {
                     for (let item of signos) {
                         if( item == caracter ) {
                             display.value = caracter;
-                            break;
+                            return true;
                         }
                     }
-                    if (debug) console.log('No se puede empezar por algo que no sea un signo');
+                    if (debug) console.log('No se puede empezar por algo que no sea un signo o número');
                     return false;
                 }
                 
@@ -169,41 +169,45 @@ function display_add(caracter) {
                     return false;
                 }
 
+
                 // Recorremos los carácteres válidos
                 for (let item of operadores_decimales) {
                     
                     // Si ya tenemos ese caracter introducido
                     if ( !calculado && last_character == item) {
+                        
+                        //comprobamos que no se está introduciendo un signo
+                        for (let signos_item of signos) {
+                            if( signos_item == caracter ) {
+                                display.value = display.value + caracter;
+                                return true;
+                            }
+                        }
 
                         if (debug) console.log('eliminando el caracter duplicado: ' + item + ' posición:' + display.value.indexOf(item));
 
                         display_del(); //eliminamos el último caracter
-                        display_value = display.value;
 
                         //volvemos a lanzar esta función para que se evalúe si se tiene que introducir
                         display_add(caracter);
-
-                        if (debug) console.log('display_value: ' + display_value);
-                        
-                        introducir_caracter = false;
-                        break;
+                        return false;
                     }
                 }
-                if( !introducir_caracter ) break;
 
                 //comprobamos si ya hay algún operador
-                for (let operadores_line of operadores) {
-                    if (display_value.indexOf(operadores_line) > 0) {
-                        if (debug) console.log('operador ya en display: ' + operadores_line + ' posición:' + display_value.indexOf(operadores_line));
-                        operator = operadores_line;
+                for (let line of operadores) {
+                    
+                    if ( display_value.indexOf(line).length > 0 ) {
+
+                        if (debug) console.log('operador ya en display: ' + line + ' posición:' + display_value.indexOf(line));
+                        operator = line;
                         operator_found = true;
-                        value_split = display_value.split(operadores_line);
+                        value_split = display_value.split(line);
                         break;
                     }
                 }
-                if( !introducir_caracter ) break;
 
-                //comprobamos si ya hay un signo (+ ó -) en la cifra
+                //comprobamos si ya hay un signo (-) en la cifra
                 for (let signos_line of signos) {
                     if (caracter == signos_line) {
                         //recorremos la última cifra por si tiene algún signo ya
@@ -214,7 +218,6 @@ function display_add(caracter) {
                         }
                     }
                 }
-                if( !introducir_caracter ) break;
 
                 //si es un operador, insertamos un salto de línea
                 for (let operadores_signos_line of operadores_signos) {
@@ -222,8 +225,6 @@ function display_add(caracter) {
                         is_operator = true;
                     }
                 }
-                if( !introducir_caracter ) break;
-
 
                 //comprobamos si ya hay algún decimal (en el último número introducido)
                 for (let element2 of decimales) {
@@ -236,7 +237,6 @@ function display_add(caracter) {
                         break;
                     }
                 }
-                if( !introducir_caracter ) break;
 
                 if (debug) console.log('operador encontrado: ' + operator_found);
                 if (debug) console.log('operador: ' + operator);
@@ -249,15 +249,30 @@ function display_add(caracter) {
 
                     calculado = false;
 
+                    // Si el carácter es un operador
                     if (is_operator) {
+
+                        //comprobamos si hay más de 2 líneas
+                        if( display.value.split("\n").length > 1 ) {
+                            
+                            // calculamos
+                            calcular();
+                            
+                            // volvemos a lanzar esta función para que se evalúe si se tiene que introducir
+                            display_add(caracter);
+                            
+                            return false;
+                        }
+
                         display.value = String(display_value) + String("\n" + caracter);
+                    
                     } else {
                         display.value = String(display_value) + String(caracter);
                     }
 
                 }
 
-
+                // Hemos encontrado y evaluado el caracter por lo que no seguimos 
                 break;
             }
         };
