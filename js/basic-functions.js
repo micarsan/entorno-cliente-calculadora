@@ -5,6 +5,7 @@ let debug = true; //define si muestra mensajes de depuración en console.log
 
 let calculado = false; //para saber si se está mostrando el resultado
 let history = ''; //guarda el historial de operaciones
+
 const operadores = ['+', '*', '/']; //operadores
 const signos = ['-']; //signos
 const decimales = [',', '.']; //caracteres de puntuación decimal
@@ -20,6 +21,7 @@ let operator = ''; //define la operación a realizar
 window.addEventListener("load", windows_load);
 window.addEventListener("resize", on_resize);
 
+//ejecuciones cuando cargue la página
 function windows_load() {
     
     //ajustamos al centro la calculadora y demás

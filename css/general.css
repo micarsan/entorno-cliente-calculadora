@@ -67,6 +67,13 @@ a {
     transform: scale(1);
     filter: invert(50%) brightness(50%);
     transition: filter 0.5s ease;
+    margin-top: -1px;
+}
+
+@-moz-document url-prefix() {
+    #history>img {
+        margin-top: 0px;
+    }
 }
 
 #history.active>img {
@@ -107,7 +114,7 @@ a {
 
 #display {
     color: white;
-    width: -webkit-fill-available;
+    width: 100%;
     border: 0;
     font-size: 2em;
     text-align: right;
