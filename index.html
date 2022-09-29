@@ -10,30 +10,31 @@
 <body id="body">
     <div id="black" class="full_size"></div>
     <div id="loading" class="full_size"></div>
-        <!-- Modal history -->
-    <div id="history_modal" class="full_size modal">
+        <!-- Modal -->
+    <div id="modal" class="full_size modal">
         <div class="modal-content">
             <div class="modal-header">
                 <span onclick="close_modal()" class="modal-close">&times;</span>
-                <h2>Historial</h2>
+                <h2 id="modal-title"></h2>
             </div>
-            <div class="modal-body">
-                <pre id="history_data">Sin historial</pre>
-            </div>
+            <div id="modal-body"></div>
         </div>
     </div>
     <div id="container">
         <div id="calculadora">
             <div id="displayZone">
                 <div id="extras">
-                    <span>DEC</span>
-                    <span style="float: right;">
+                    <span><a>DEC</a></span>
+                    <span class="right">
+                        <a id="info" class="extras-simbols" href="javascript:show_info()">&#128712;</a>
+                    </span>
+                    <span class="right">
                         <a id="history" href="javascript:show_history()">
-                            <img src="css/img/history-icon.svg" width="19" />
+                            <img src="css/img/history-icon.svg" width="18" style="margin-top: -1px;" />
                         </a>
                     </span>
-                    <span style="float: right;">
-                        <a id="new_window" href="javascript:new_window()">&#8673;</a>
+                    <span class="right">
+                        <a id="new_window" class="extras-simbols" href="javascript:new_window()">&#8689;</a>
                     </span>
                 </div>
                 <textarea disabled id="display" rows="3"></textarea>
