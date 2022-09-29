@@ -618,3 +618,12 @@ function change_background_image() {
 
     document.body.style["background-image"] = 'url("css/img/bg' + random + '.webp")';
 }
+
+
+/**
+ * Animación del corazón de footer
+ */
+
+function footer_animate() {
+    document.getElementById('footer').classList.toggle('animate');
+}
