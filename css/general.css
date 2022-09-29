@@ -131,6 +131,12 @@ a {
     border: 0;
     border-radius: 2px;
     color: rgb(255 255 255 / 80%);
+    transition: background-color 0.1s ease-out;
+    -webkit-transition: background-color 0.1s ease-out;
+}
+
+#calculadora button.active {
+    background-color: rgba(17, 17, 17, 0.375);
 }
 
 header {

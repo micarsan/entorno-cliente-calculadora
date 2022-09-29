@@ -15,6 +15,27 @@ const operadores_decimales = operadores.concat(decimales);
 const operadores_signos_decimales = operadores.concat(signos, decimales);
 const permitidos = operadores.concat(signos, decimales, noNumeric); //Valores permitidos (todos los anteriores)
 
+// Asocia un caracter con el id de la tecla en cuestión
+const keys_functions = {
+    'ac':'ac',
+    '/':'dividir',
+    '*':'multiplicar',
+    '-':'restar',
+    '+':'sumar',
+    '=':'igual',
+    ',':'coma',
+    '9':'nueve',
+    '8':'ocho',
+    '7':'siete',
+    '6':'seis',
+    '5':'cinco',
+    '4':'cuatro',
+    '3':'tres',
+    '2':'dos',
+    '1':'uno',
+    '0':'cero'
+};
+
 let operator = ''; //define la operación a realizar
 
 
@@ -37,24 +58,14 @@ function windows_load() {
 
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('ac').addEventListener("click", ac);
-    document.getElementById('dividir').addEventListener("click", dividir);
-    document.getElementById('multiplicar').addEventListener("click", multiplicar);
-    document.getElementById('restar').addEventListener("click", restar);
-    document.getElementById('sumar').addEventListener("click", sumar);
-    document.getElementById('igual').addEventListener("click", igual);
-    document.getElementById('coma').addEventListener("click", coma);
-    document.getElementById('nueve').addEventListener("click", nueve);
-    document.getElementById('ocho').addEventListener("click", ocho);
-    document.getElementById('siete').addEventListener("click", siete);
-    document.getElementById('seis').addEventListener("click", seis);
-    document.getElementById('cinco').addEventListener("click", cinco);
-    document.getElementById('cuatro').addEventListener("click", cuatro);
-    document.getElementById('tres').addEventListener("click", tres);
-    document.getElementById('dos').addEventListener("click", dos);
-    document.getElementById('uno').addEventListener("click", uno);
-    document.getElementById('cero').addEventListener("click", cero);
+    
+    // Recorremos keys_functions y generamos un evento para cada button
+    for ( let key of Object.keys(keys_functions) ) {
+        document.getElementById(keys_functions[key]).addEventListener("click", window[keys_functions[key]]);
+        if (debug) console.log( 'Key registrada: ' + keys_functions[key] );
+    }
 
     document.body.addEventListener('keyup', (e) => {
         if (debug) console.log(`Tecla "${e.key}" liberada [event: keyup]`);
@@ -67,24 +78,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     display_del();
                     break;
                 case '/':
+                    key_effect('dividir');
                     dividir();
                     break;
                 case '*':
                 case 'x':
                 case 'X':
+                    key_effect('multiplicar');
                     multiplicar();
                     break;
                 case '-':
+                    key_effect('restar');
                     restar();
                     break;
                 case '+':
+                    key_effect('sumar');
                     sumar();
                     break;
                 case ',':
                 case '.':
+                    key_effect('coma');
                     coma();
                     break;
                 case 'Enter':
+                    key_effect('igual');
                     igual();
                     break;
             }
@@ -105,6 +122,14 @@ function display_add(caracter) {
     if (!isNaN(caracter)) {
         
         if (debug) console.log('El carácter es un número: ' + caracter);
+
+        //animamos el botón
+        for ( let key of Object.keys(keys_functions) ) {
+            if( caracter == key ) {
+                key_effect(keys_functions[key]);
+            }
+        }
+    
         
         if (calculado) {
             if (debug) console.log('Tenemos ya un resultado calculado. Borramos');
@@ -332,15 +357,20 @@ function display_del() {
             display.value = display.value.slice(0, -1);
         }
     } else {
+        key_effect('ac');
         if (debug) console.log('No hay nada más que borrar');
     }
 }
 
 // Limpiar display y poner todo a cero
-function ac(history_clear = true) {
+function ac( history_clear = true ) {
+    
+    key_effect('ac');
+    
     display.value = '';
     operator = '';
     calculado = false;
+    
     if (history_clear) {
         history = '';
         document.getElementById('history').classList.remove('active');
@@ -349,51 +379,67 @@ function ac(history_clear = true) {
 
 function dividir() {
     display_add('/');
+    key_effect('dividir');
 }
 function multiplicar() {
     display_add('*');
+    key_effect('multiplicar');
 }
 function restar() {
     display_add('-');
+    key_effect('restar');
 }
 function sumar() {
     display_add('+');
+    key_effect('sumar');
 }
 function igual() {
     calcular();
+    key_effect('igual');
 }
 function coma() {
     display_add(',');
+    key_effect('coma');
 }
 function nueve() {
     display_add(9);
+    key_effect('nueve');
 }
 function ocho() {
     display_add(8);
+    key_effect('ocho');
 }
 function siete() {
     display_add(7);
+    key_effect('siete');
 }
 function seis() {
     display_add(6);
+    key_effect('seis');
 }
 function cinco() {
     display_add(5);
+    key_effect('cinco');
 }
 function cuatro() {
     display_add(4);
+    key_effect('cuatro');
 }
 function tres() {
     display_add(3);
+    key_effect('tres');
 }
 function dos() {
     display_add(2);
+    key_effect('dos');
 }
 function uno() {
     display_add(1);
+    key_effect('uno');
 }
 function cero() {
     display_add(0);
+    key_effect('cero');
 }
 
 
@@ -401,6 +447,14 @@ function cero() {
  * ======= a partir de aquí, estética e interacción con la UI ========
  */
 
+
+function key_effect(key) {
+    if (debug) console.log('key_effect: ' + key);
+    document.getElementById(key).classList.add('active');
+    setTimeout(() => {
+        document.getElementById(key).classList.remove('active');
+    }, 150);
+}
 
 /**
  * Ajustar la posición de la calculadora (centrala)
@@ -459,7 +513,7 @@ function show_modal(header, body) {
     //mostramos y animamos
     document.getElementById('modal').style.display = 'block';
     setTimeout(() => {
-        document.getElementById('modal').classList.add('active')
+        document.getElementById('modal').classList.add('active');
     }, 50);
 }
 
