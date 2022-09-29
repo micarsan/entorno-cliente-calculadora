@@ -5,11 +5,14 @@ let debug = true; //define si muestra mensajes de depuración en console.log
 
 let calculado = false; //para saber si se está mostrando el resultado
 let history = ''; //guarda el historial de operaciones
-const operadores = ['+','-','*','/']; //operadores
+const operadores = ['+','*','/']; //operadores
+const signos = ['-']; //signos
 const decimales = [',','.']; //caracteres de puntuación decimal
 const noNumeric = ['x','X',':']; //Valores no numéricos permitidos
-const operadoresYdecimales = operadores.concat( decimales );
-const permitidos = operadores.concat( decimales, noNumeric ); //Valores permitidos (todos los anteriores)
+const operadores_signos = operadores.concat( signos );
+const operadores_decimales = operadores.concat( decimales );
+const operadores_signos_decimales = operadores.concat( signos, decimales );
+const permitidos = operadores.concat( signos, decimales, noNumeric ); //Valores permitidos (todos los anteriores)
 
 let operator = ''; //define la operación a realizar
 
@@ -104,11 +107,22 @@ function display_add( caracter ) {
                 
                 if( debug ) console.log('caracter a añadir: ' + element);
                 
-                for( let element2 of operadoresYdecimales ) {
+                for( let element2 of operadores_decimales ) {
                     // Si el último elemento es un caracter válido no numérico
                     if( !calculado && display_value.charAt( display_value.length - 1 ) == element2 ) {
+                        
                         if( debug ) console.log('eliminando el caracter encontrado al final: ' + element2 + ' posición:' + display.value.indexOf(element2) );
-                        display_del();
+                        
+                        display_del(); //eliminamos el último caracter
+                        display_value = display.value;
+                        
+                        //comprobamos si hay un retorno de carro y lo eliminamos
+                        if( display_value.charAt( display_value.length - 1 ) == "\n" ) {
+                            display_del();
+                            display_value = display.value;
+                        }
+                        
+                        if( debug ) console.log('display_value: ' + display_value );
                         break;
                     }
                 }
@@ -123,9 +137,23 @@ function display_add( caracter ) {
                         break;
                     }
                 }
+
+                //comprobamos si ya hay un signo (+ ó -) en la cifra
+                for( let signos_line of signos ) {
+                    if( caracter == signos_line ) {
+                        //recorremos la última cifra por si tiene algún signo ya
+                        if( value_split[value_split.length-1].indexOf(caracter) > 0 ) {
+                            if( debug ) console.log( 'Signo duplicado :' + caracter );
+                            operator_found = true;
+                            break;
+                        }
+                    }
+                }
+
+
                 //si es un operador, insertamos un salto de línea
-                for( let operadores_line of operadores ) {
-                    if( caracter == operadores_line ) {
+                for( let operadores_signos_line of operadores_signos ) {
+                    if( caracter == operadores_signos_line ) {
                         is_operator = true;
                     }
                 }
@@ -368,16 +396,16 @@ function change_background_image() {
     // document.getElementById('black').classList.add('close');
     setTimeout(() => {
         document.getElementById('black').classList.add('close');
-    }, 50)
+    }, 50);
     setTimeout(() => {
         document.getElementById('black').style.display = 'none';
-    }, 350)
+    }, 350);
     setTimeout(() => {
         document.getElementById('loading').classList.add('close');
-    }, 200)
+    }, 200);
     setTimeout(() => {
         document.getElementById('loading').style.display = 'none';
-    }, 700)
+    }, 700);
     
     document.body.style["background-image"] = 'url("css/img/bg' + random + '.webp")';
 }

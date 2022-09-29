@@ -14,6 +14,11 @@ a {
     text-decoration: none;
 }
 
+@keyframes animate-scale {
+    from { transform: scale(0.85); }
+    to { transform: scale(1);}
+}
+
 #calculadora {
     transition: top 0.5s ease-in-out, left 0.5s ease-in-out;
     width: fit-content;
@@ -41,12 +46,22 @@ a {
 }
 
 #history>img {
+    transform: scale(0.85);
     filter: invert(50%) brightness(80%);
 }
 
 #history.active>img {
+    transform: scale(0.90);
     filter: invert(100%) brightness(80%);
+    animation-name: animate-scale;
+    animation-duration: 0.35s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-iteration-count: 4;
+    animation-play-state: running;
+
 }
+
 #new_window {
     padding: 0 8px;
     font-size: 17px;
@@ -166,6 +181,23 @@ footer h3 {
     color: rgba(255, 255, 255, 0.614);
     font-size: 0.9em;
     font-weight: 300;
+}
+footer a span:before {
+    content:"\2764";
+    filter: grayscale(80%);
+    display: inline-block;
+    transform: scale(0.85);
+    transition: filter 1s ease, transform 1s ease;
+    -webkit-transition: filter 1s ease, transform 1s ease;
+}
+footer a:hover span::before {
+    filter: grayscale(0%);
+    animation-name: animate-scale;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
 }
 
 /* Establece una capa a tamaño completo */
