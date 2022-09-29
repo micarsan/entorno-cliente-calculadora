@@ -63,21 +63,21 @@ a {
     padding: 0 4px;
 }
 
-#history>img {
-    transform: scale(1);
-    filter: invert(50%) brightness(50%);
-    transition: filter 0.5s ease;
-    margin-top: -1px;
+img.invert {
+    filter: invert(70%) brightness(92%);
 }
 
-@-moz-document url-prefix() {
-    #history>img {
-        margin-top: 0px;
-    }
+#history>img {
+    filter: invert(50%) brightness(50%);
+    transition: filter 0.5s ease;
+}
+
+#info>img {
+    zoom: 1.06;
+    transition: margin 2s ease-in-out;
 }
 
 #history.active>img {
-    transform: scale(1);
     filter: invert(70%) brightness(92%);
     animation-name: animate-scale;
     animation-duration: 0.35s;
