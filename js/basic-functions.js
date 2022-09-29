@@ -94,52 +94,102 @@ document.addEventListener('DOMContentLoaded', () => {
 function display_add(caracter) {
 
 
+    if (debug) console.log('caracter a añadir: ' + caracter);
     if (debug) console.log('display value: ' + display.value);
-    if (debug) console.log('display value length: ' + display.value.length);
-    if (debug) console.log('display value last char: ' + display.value.charAt(display.length - 1));
 
 
+    // Si es un número el caracter introducido
     if (!isNaN(caracter)) {
+        
         if (debug) console.log('El carácter es un número: ' + caracter);
+        
         if (calculado) {
             if (debug) console.log('Tenemos ya un resultado calculado. Borramos');
             ac(false);
             calculado = false;
         }
+        
         display.value = String(display.value) + String(caracter);
+    
     } else {
-        // Si no hay ningún número
+        // Si no es un número el caracter introducido
+        
+        // Recorremos los carácteres permitidos
         for (let element of permitidos) {
+            
+            // Si es un carácter válido
             if (caracter == element) {
-                let display_value = display.value;
-                if (calculado) { display_value = display.value.substr(display_value.lastIndexOf("\n") + 1); }
-                let value_split = [display_value];
+
+                let display_value = display.value; //guardamos el valor del display
+                // Si el display tiene un resultado, cogemos sólo la última línea (para seguir interactuando)
+                if (calculado) {
+                    display_value = display.value.substr(display_value.lastIndexOf("\n") + 1);
+                    display.value = display_value;
+                }
+
+                let introducir_caracter = true; // Si vamos a introducir el caracter que estamos analizando
+                let value_split = [display_value]; //Array con el valor inicial
                 let operator_found = false; //para saber si hay ya un operador
                 let is_operator = false; // para saber si el carácter es un operador
                 let decimal_found = false; //para saber si se ha encontrado un decimal
                 let value_decimal = false; //para saber si ya tiene un decimal el último número introducido
+                
+                //guardamos el último carácter introducido ya que lo necesitaremos para comprobaciones
+                let last_character;
+                if( display_value.length > 0 ) {
+                    last_character = display_value.charAt(display_value.length - 1);
+                    if (debug) console.log('last_character: ' + last_character);
+                }
+                
+                // Si está vacío el input y es un signo, lo introducimos y saltamos el resto de comprobaciones
+                if( display_value.length == 0 ) {
+                    for (let item of signos) {
+                        if( item == caracter ) {
+                            display.value = caracter;
+                            break;
+                        }
+                    }
+                    if (debug) console.log('No se puede empezar por algo que no sea un signo');
+                    return false;
+                }
+                
+                if (debug) console.log('display value length: ' + display.value.length);
 
-                if (debug) console.log('caracter a añadir: ' + element);
+                // Si el último carácter es un signo, salimos (sólo puede haber un número)
+                for ( let item of signos ) {
+                    if( last_character == item ) {
+                        if (debug) console.log('Tras un signo, sólo puede haber un número');
+                        return false;
+                    }
+                }
 
-                for (let element2 of operadores_decimales) {
-                    // Si el último elemento es un caracter válido no numérico
-                    if (!calculado && display_value.charAt(display_value.length - 1) == element2) {
+                //si el carácter está repetido
+                if( caracter == last_character ) {
+                    if (debug) console.log('Omitiendo caracter repetido: ' + last_character);
+                    return false;
+                }
 
-                        if (debug) console.log('eliminando el caracter encontrado al final: ' + element2 + ' posición:' + display.value.indexOf(element2));
+                // Recorremos los carácteres válidos
+                for (let item of operadores_decimales) {
+                    
+                    // Si ya tenemos ese caracter introducido
+                    if ( !calculado && last_character == item) {
+
+                        if (debug) console.log('eliminando el caracter duplicado: ' + item + ' posición:' + display.value.indexOf(item));
 
                         display_del(); //eliminamos el último caracter
                         display_value = display.value;
 
-                        //comprobamos si hay un retorno de carro y lo eliminamos
-                        if (display_value.charAt(display_value.length - 1) == "\n") {
-                            display_del();
-                            display_value = display.value;
-                        }
+                        //volvemos a lanzar esta función para que se evalúe si se tiene que introducir
+                        display_add(caracter);
 
                         if (debug) console.log('display_value: ' + display_value);
+                        
+                        introducir_caracter = false;
                         break;
                     }
                 }
+                if( !introducir_caracter ) break;
 
                 //comprobamos si ya hay algún operador
                 for (let operadores_line of operadores) {
@@ -151,6 +201,7 @@ function display_add(caracter) {
                         break;
                     }
                 }
+                if( !introducir_caracter ) break;
 
                 //comprobamos si ya hay un signo (+ ó -) en la cifra
                 for (let signos_line of signos) {
@@ -163,7 +214,7 @@ function display_add(caracter) {
                         }
                     }
                 }
-
+                if( !introducir_caracter ) break;
 
                 //si es un operador, insertamos un salto de línea
                 for (let operadores_signos_line of operadores_signos) {
@@ -171,6 +222,7 @@ function display_add(caracter) {
                         is_operator = true;
                     }
                 }
+                if( !introducir_caracter ) break;
 
 
                 //comprobamos si ya hay algún decimal (en el último número introducido)
@@ -184,6 +236,7 @@ function display_add(caracter) {
                         break;
                     }
                 }
+                if( !introducir_caracter ) break;
 
                 if (debug) console.log('operador encontrado: ' + operator_found);
                 if (debug) console.log('operador: ' + operator);
@@ -191,7 +244,7 @@ function display_add(caracter) {
                 if (debug) console.log('valor decimal: ' + value_decimal);
                 if (debug) console.log('valueSplit: ' + value_split);
 
-                if ((!operator_found && !value_decimal) | (value_decimal && !decimal_found)) {
+                if ( ( (!operator_found && !value_decimal) | (value_decimal && !decimal_found) ) ) {
                     if (debug) console.log('display value: ' + display_value + ' - añadir: ' + caracter);
 
                     calculado = false;
@@ -214,13 +267,30 @@ function display_add(caracter) {
 }
 
 function calcular() {
+
+    // Si no hay nada que calcular, salimos
+    if( display.value.length < 1 ) {
+        if (debug) console.log('No hay contenido para calcular.');
+        return false;
+    }
+
+    // Si hemos calculado y no hay cambios, salimos
+    if( calculado ) {
+        if (debug) console.log('Ya se ha calculado.');
+        return false;
+    }
+
     if (debug) console.log('línea de cálculo: ' + String(display.value.replace(',', '.')).replace(',', '.'));
+    
+    // Evaluamos el contenido reemplazando las comas por puntos
     let resultado = eval(String(display.value.replace(',', '.')).replace(',', '.'));
+    
     if (debug) console.log('eval: ' + resultado);
 
+    // Insertamos el resultado reemplazando los puntos por comas
     display.value = display.value + "\n" + String(String(resultado).replace('.', ',')).replace('.', ',');
 
-    history += display.value + "\n\n"
+    history += display.value + "\n\n";
     if (debug) console.log('history: ' + history);
 
     calculado = true;
@@ -233,10 +303,19 @@ function calcular() {
 // Elimina el último carácter del display
 function display_del() {
     if (display.value.length > 0) {
+        if (debug) console.log('Borrando último carácter: ' + display.value.charAt(display.value.length - 1));
         display.value = display.value.slice(0, -1);
+
+        //comprobamos si el último carácter que queda es un retorno de carro y lo eliminamos
+        while( display.value.charAt(display.value.length - 1) == "\n" ) {
+            display.value = display.value.slice(0, -1);
+        }
+    } else {
+        if (debug) console.log('No hay nada más que borrar');
     }
 }
 
+// Limpiar display y poner todo a cero
 function ac(history_clear = true) {
     display.value = '';
     operator = '';
@@ -245,7 +324,6 @@ function ac(history_clear = true) {
         history = '';
         document.getElementById('history').classList.remove('active');
     }
-    //location.reload();
 }
 function dividir() {
     display_add('/');
