@@ -248,11 +248,11 @@ footer a span:before {
     content: "\2764";
     filter: grayscale(80%);
     display: inline-block;
-    transition: filter 1s ease, transform 1s ease;
-    -webkit-transition: filter 1s ease, transform 1s ease;
+    transition: filter 2s ease, transform 1s ease-in-out;
+    -webkit-transition: filter 2s ease, transform 1s ease-in-out;
 }
 
-footer:hover span::before, footer.animate span::before {
+footer:hover span::before {
     filter: grayscale(0%);
     animation-name: animate-scale;
     animation-duration: 0.7s;
