@@ -38,6 +38,7 @@ a {
     grid-gap: 3px;
     grid-template-areas:
         'displayZone displayZone displayZone displayZone'
+        'mmas mr borrar borrar'
         'ac dividir multiplicar restar'
         'siete ocho nueve sumar'
         'cuatro cinco seis sumar'
@@ -135,12 +136,28 @@ img.invert {
     -webkit-transition: background-color 0.1s ease-out;
 }
 
+#calculadora button.small {
+    padding: 7px 15px;
+}
+
 #calculadora button.active {
     background-color: rgba(17, 17, 17, 0.375);
 }
 
 header {
     grid-area: header;
+}
+
+#mmas {
+    grid-area: mmas;
+}
+
+#mr {
+    grid-area: mr;
+}
+
+#borrar {
+    grid-area: borrar;
 }
 
 #ac {

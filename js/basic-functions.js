@@ -17,7 +17,9 @@ const permitidos = operadores.concat(signos, decimales, noNumeric); //Valores pe
 
 // Asocia un caracter con el id de la tecla en cuestión
 const keys_functions = {
-    'ac':'ac',
+    'm+':'mmas',
+    'mr':'mr',
+    'borrar':'borrar',
     '/':'dividir',
     '*':'multiplicar',
     '-':'restar',
@@ -56,6 +58,15 @@ function windows_load() {
         document.getElementById('info').classList.add('animate');
     }, 1000);
 
+    // Bloqueamos la pantalla en vertical
+    screen.orientation.lock('portrait')
+    .then( () => {
+      console.log( 'Locked to portrait' );
+    })
+    .catch( (error) => {
+        console.log( 'Locked to portrait error: ' + error );
+    });
+
 }
 
 
@@ -75,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             switch (e.key) {
                 case 'Backspace':
-                    display_del();
+                case 'Delete':
+                    borrar();
                     break;
                 case '/':
                     key_effect('dividir');
@@ -375,6 +387,18 @@ function ac( history_clear = true ) {
         history = '';
         document.getElementById('history').classList.remove('active');
     }
+}
+
+function borrar() {
+    key_effect('borrar');
+    display_del();
+}
+
+function mmas() {
+    key_effect('mmas');
+}
+function mr() {
+    key_effect('mr');
 }
 
 function dividir() {
