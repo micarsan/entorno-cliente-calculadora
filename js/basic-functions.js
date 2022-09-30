@@ -3,8 +3,9 @@ let debug = true; //define si muestra mensajes de depuración en console.log
 
 /*  No tocar a partir de aquí */
 
-let calculado = false; //para saber si se está mostrando el resultado
-let history = ''; //guarda el historial de operaciones
+var calculado = false; // Para saber si se está mostrando el resultado
+var history = ''; // Guarda el historial de operaciones
+var memory = 0; // Guarda la memoria m+ 
 
 const operadores = ['+', '*', '/']; //operadores
 const signos = ['-']; //signos
@@ -19,6 +20,7 @@ const permitidos = operadores.concat(signos, decimales, noNumeric); //Valores pe
 const keys_functions = {
     'm+':'mmas',
     'mr':'mr',
+    'mc':'mc',
     'borrar':'borrar',
     'ac':'ac',
     '/':'dividir',
@@ -79,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (debug) console.log( 'Key registrada: ' + keys_functions[key] );
     }
 
+    // Generamos eventos para el teclado
     document.body.addEventListener('keyup', (e) => {
         if (debug) console.log(`Tecla "${e.key}" liberada [event: keyup]`);
 
@@ -333,13 +336,15 @@ function calcular() {
         return false;
     }
 
-    // Si hemos calculado y no hay cambios, salimos
+    // Si ya hemos calculado, salimos
     if( calculado ) {
         if (debug) console.log('Ya se ha calculado.');
         return false;
     }
 
     if (debug) console.log('línea de cálculo: ' + String(display.value.replace(',', '.')).replace(',', '.'));
+
+
     
     // Evaluamos el contenido reemplazando las comas por puntos
     let resultado = eval(String(display.value.replace(',', '.')).replace(',', '.'));
@@ -394,14 +399,6 @@ function borrar() {
     key_effect('borrar');
     display_del();
 }
-
-function mmas() {
-    key_effect('mmas');
-}
-function mr() {
-    key_effect('mr');
-}
-
 function dividir() {
     display_add('/');
     key_effect('dividir');
@@ -468,13 +465,117 @@ function cero() {
 }
 
 
+
+/**
+ * m+ Guardar en memoria más
+ */
+function mmas() {
+
+    key_effect('mmas');
+
+    // Calculamos lo que haya en pantalla
+    calcular();
+
+    // Cogemos el último resultado
+    let resultados = display.value.split("\n");
+    let resultado = resultados[resultados.length-1];
+    
+    //Si es número, lo añadimos a la memoria
+    if (!isNaN(resultado)) {
+        
+        memory = Number(memory) + Number(resultado);
+        
+        //resaltamos el botón
+        key_effect('mmas','red',true);
+        
+        //Activamos los otros botones
+        document.getElementById('mr').classList.remove('disabled');
+        document.getElementById('mc').classList.remove('disabled');
+    
+        
+        //activamos el indicador en extras
+        document.getElementById('extras_mem').classList.add('active');
+        
+        console.log('memory: ' + memory);
+    } else if(debug){
+        console.log('No se ha podido añadir a memory');
+        console.log('display.value: ' + display.value);
+        console.log('display.value.split: ' + resultados);
+        console.log('resultado: ' + resultado);
+        console.log('memory: ' + memory);
+    }
+
+}
+
+// Inserta el valor de memoria
+function mr() {
+
+    // si está desactivado, salimos
+    if( document.getElementById('mr').classList.contains('disabled') ) {
+        return false;
+    }
+
+    if(debug) console.log('memory: ' + memory);
+
+    //Insertamos el valor de la memoria en el input
+    if( !isNaN(memory) ) {
+
+        // Evaluamos si sería correcto el resultado
+        if( !eval(display.value + memory) ) {
+            return false;
+        }
+        
+        key_effect('mr');
+        
+        // Si hay un resultado calculado, limpiamos antes de insertar
+        if( calculado ) {
+            ac( false );
+        }
+        
+        display.value += memory;
+    }
+}
+
+// Limpia la memoria
+function mc() {
+
+    // si está desactivado, salimos
+    if( document.getElementById('mc').classList.contains('disabled') ) {
+        return false;
+    }
+    
+    memory = 0;
+    
+    key_effect('mmas','red',false);
+    
+    document.getElementById('extras_mem').classList.remove('active');
+    document.getElementById('mr').classList.add('disabled');
+    document.getElementById('mc').classList.add('disabled');
+
+}
+
+
+
 /**
  * ======= a partir de aquí, estética e interacción con la UI ========
  */
 
 
-function key_effect(key) {
+function key_effect(key, effect = '', status = true) {
     if (debug) console.log('key_effect: ' + key);
+    if (debug) console.log('effect: ' + effect);
+
+    switch( effect ) {
+        case 'red':
+            if (debug) console.log('cambiando color');
+            if( status )
+                document.getElementById(key).classList.add('red');
+            else
+                document.getElementById(key).classList.remove('red');
+            break
+    }
+
+    // Animamos el botón
     document.getElementById(key).classList.add('active');
     setTimeout(() => {
         document.getElementById(key).classList.remove('active');

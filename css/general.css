@@ -38,7 +38,7 @@ a {
     grid-gap: 3px;
     grid-template-areas:
         'displayZone displayZone displayZone displayZone'
-        'mmas mr borrar borrar'
+        'mmas mr mc borrar'
         'ac dividir multiplicar restar'
         'siete ocho nueve sumar'
         'cuatro cinco seis sumar'
@@ -62,6 +62,14 @@ a {
 
 #extras>span>a {
     padding: 0 4px;
+}
+#extras_hex, #extras_mem {
+    color: rgba(255,255,255,30%);
+    transition: color 0.2s ease-out;
+    -webkit-transition: color 0.2s ease-out;
+}
+#extras_hex.active, #extras_mem.active {
+    color: rgba(255,255,255,80%);
 }
 
 img.invert {
@@ -132,8 +140,8 @@ img.invert {
     border: 0;
     border-radius: 2px;
     color: rgb(255 255 255 / 80%);
-    transition: background-color 0.1s ease-out;
-    -webkit-transition: background-color 0.1s ease-out;
+    transition: background-color 0.1s ease-out, color 0.2s ease-out;
+    -webkit-transition: background-color 0.1s ease-out, color 0.2s ease-out;
 }
 
 #calculadora button.small {
@@ -144,89 +152,35 @@ img.invert {
     background-color: rgba(17, 17, 17, 0.375);
 }
 
-header {
-    grid-area: header;
+#calculadora button.red {
+    color: #f24545;
+}
+#calculadora button.disabled {
+    color: rgba(255,255,255,0.3);
 }
 
-#mmas {
-    grid-area: mmas;
-}
-
-#mr {
-    grid-area: mr;
-}
-
-#borrar {
-    grid-area: borrar;
-}
-
-#ac {
-    grid-area: ac;
-}
-
-#dividir {
-    grid-area: dividir;
-}
-
-#multiplicar {
-    grid-area: multiplicar;
-}
-
-#restar {
-    grid-area: restar;
-}
-
-#sumar {
-    grid-area: sumar;
-}
-
-#igual {
-    grid-area: igual;
-}
-
-#coma {
-    grid-area: coma;
-}
-
-#nueve {
-    grid-area: nueve;
-}
-
-#ocho {
-    grid-area: ocho;
-}
-
-#siete {
-    grid-area: siete;
-}
-
-#seis {
-    grid-area: seis;
-}
-
-#cinco {
-    grid-area: cinco;
-}
-
-#cuatro {
-    grid-area: cuatro;
-}
-
-#tres {
-    grid-area: tres;
-}
-
-#dos {
-    grid-area: dos;
-}
-
-#uno {
-    grid-area: uno;
-}
-
-#cero {
-    grid-area: cero;
-}
+header { grid-area: header; }
+#mmas { grid-area: mmas; }
+#mr { grid-area: mr; }
+#mc { grid-area: mc; }
+#borrar { grid-area: borrar; }
+#ac { grid-area: ac; }
+#dividir { grid-area: dividir; }
+#multiplicar { grid-area: multiplicar; }
+#restar { grid-area: restar; }
+#sumar { grid-area: sumar; }
+#igual { grid-area: igual; }
+#coma { grid-area: coma; }
+#nueve { grid-area: nueve; }
+#ocho { grid-area: ocho; }
+#siete { grid-area: siete; }
+#seis { grid-area: seis; }
+#cinco { grid-area: cinco; }
+#cuatro { grid-area: cuatro; }
+#tres { grid-area: tres; }
+#dos { grid-area: dos; }
+#uno { grid-area: uno; }
+#cero { grid-area: cero; }
 
 footer {
     position: fixed;
