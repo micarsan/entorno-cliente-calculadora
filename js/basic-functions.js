@@ -20,6 +20,7 @@ const keys_functions = {
     'm+':'mmas',
     'mr':'mr',
     'borrar':'borrar',
+    'ac':'ac',
     '/':'dividir',
     '*':'multiplicar',
     '-':'restar',
