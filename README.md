@@ -4,7 +4,7 @@
 </h1>
 
 <h4 align="center">Una calculadora creada sobre javascript, css y html para aprendizaje con js en DAW.</h4>
-<p align="center">Por favor, se trata de un código nóvel por lo que no estará exento de errores. Utilícelo con cuidado.</p>
+<p align="center">Por favor, mi actual nivel de programación en js es bastante moderado. Utilice este código con cuidado.</p>
 
 
 <p align="center">
@@ -22,7 +22,7 @@
 
 ## Detalles
 
-* Hecha completamente en HTML, CSS y JS sin ninguna librería adicional
+* Hecha completamente en HTML, CSS y JS **sin ninguna librería adicional** (para mejorar más aún el aprendizaje).
 * Efectos y transiciones agradables a la interacción de usuario
 * Fondos distintos al cargar
 * Historial de operaciones
