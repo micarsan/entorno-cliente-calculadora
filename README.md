@@ -37,7 +37,5 @@ Miguel Carmona
 <a href="https://miguelcarmona.com">https://miguelcarmona.com</a>
 
 ## Licencia
+<a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL3</a>
 
-MIT
-
----
