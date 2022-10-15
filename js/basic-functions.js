@@ -1,10 +1,10 @@
-let debug = true; //define si muestra mensajes de depuración en console.log
+let debug = false; //define si muestra mensajes de depuración en console.log
 
 
 /*  No tocar a partir de aquí */
 
 var calculado = false; // Para saber si se está mostrando el resultado
-var history = ''; // Guarda el historial de operaciones
+var history_log = ''; // Guarda el historial de operaciones
 var memory = 0; // Guarda la memoria m+ 
 
 const operadores = ['+', '*', '/']; //operadores
@@ -18,27 +18,27 @@ const permitidos = operadores.concat(signos, decimales, noNumeric); //Valores pe
 
 // Asocia un caracter con el id de la tecla en cuestión
 const keys_functions = {
-    'm+':'mmas',
-    'mr':'mr',
-    'mc':'mc',
-    'borrar':'borrar',
-    'ac':'ac',
-    '/':'dividir',
-    '*':'multiplicar',
-    '-':'restar',
-    '+':'sumar',
-    '=':'igual',
-    ',':'coma',
-    '9':'nueve',
-    '8':'ocho',
-    '7':'siete',
-    '6':'seis',
-    '5':'cinco',
-    '4':'cuatro',
-    '3':'tres',
-    '2':'dos',
-    '1':'uno',
-    '0':'cero'
+    'm+': 'mmas',
+    'mr': 'mr',
+    'mc': 'mc',
+    'borrar': 'borrar',
+    'ac': 'ac',
+    '/': 'dividir',
+    '*': 'multiplicar',
+    '-': 'restar',
+    '+': 'sumar',
+    '=': 'igual',
+    ',': 'coma',
+    '9': 'nueve',
+    '8': 'ocho',
+    '7': 'siete',
+    '6': 'seis',
+    '5': 'cinco',
+    '4': 'cuatro',
+    '3': 'tres',
+    '2': 'dos',
+    '1': 'uno',
+    '0': 'cero'
 };
 
 let operator = ''; //define la operación a realizar
@@ -49,13 +49,13 @@ window.addEventListener("resize", on_resize);
 
 //ejecuciones cuando cargue la página
 function windows_load() {
-    
+
     // Cargamos fondo y transiciones
     change_background_image();
-    
+
     // Ajustamos al centro centro el contenido
     on_resize();
-    
+
     // Animamos el icono de información tras 1 segundo
     setTimeout(() => {
         document.getElementById('info').classList.add('animate');
@@ -63,22 +63,22 @@ function windows_load() {
 
     // Bloqueamos la pantalla en vertical
     screen.orientation.lock('portrait')
-    .then( () => {
-      console.log( 'Locked to portrait' );
-    })
-    .catch( (error) => {
-        console.log( 'Locked to portrait error: ' + error );
-    });
+        .then(() => {
+            if (debug) console.log('Locked to portrait');
+        })
+        .catch((error) => {
+            if (debug) console.log('Locked to portrait error: ' + error);
+        });
 
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Recorremos keys_functions y generamos un evento para cada button
-    for ( let key of Object.keys(keys_functions) ) {
+    for (let key of Object.keys(keys_functions)) {
         document.getElementById(keys_functions[key]).addEventListener("click", window[keys_functions[key]]);
-        if (debug) console.log( 'Key registrada: ' + keys_functions[key] );
+        if (debug) console.log('Key registrada: ' + keys_functions[key]);
     }
 
     // Generamos eventos para el teclado
@@ -136,31 +136,31 @@ function display_add(caracter) {
 
     // Si es un número el caracter introducido
     if (!isNaN(caracter)) {
-        
+
         if (debug) console.log('El carácter es un número: ' + caracter);
 
         //animamos el botón
-        for ( let key of Object.keys(keys_functions) ) {
-            if( caracter == key ) {
+        for (let key of Object.keys(keys_functions)) {
+            if (caracter == key) {
                 key_effect(keys_functions[key]);
             }
         }
-    
-        
+
+
         if (calculado) {
             if (debug) console.log('Tenemos ya un resultado calculado. Borramos');
             ac(false);
             calculado = false;
         }
-        
+
         display.value = String(display.value) + String(caracter);
-    
+
     } else {
         // Si no es un número el caracter introducido
-        
+
         // Recorremos los carácteres permitidos
         for (let element of permitidos) {
-            
+
             // Si es un carácter válido
             if (caracter == element) {
 
@@ -177,18 +177,18 @@ function display_add(caracter) {
                 let is_operator = false; // para saber si el carácter es un operador
                 let decimal_found = false; //para saber si se ha encontrado un decimal
                 let value_decimal = false; //para saber si ya tiene un decimal el último número introducido
-                
+
                 //guardamos el último carácter introducido ya que lo necesitaremos para comprobaciones
                 let last_character;
-                if( display_value.length > 0 ) {
+                if (display_value.length > 0) {
                     last_character = display_value.charAt(display_value.length - 1);
                     if (debug) console.log('last_character: ' + last_character);
                 }
-                
+
                 // Si está vacío el input y es un signo, lo introducimos y saltamos el resto de comprobaciones
-                if( display_value.length == 0 ) {
+                if (display_value.length == 0) {
                     for (let item of signos) {
-                        if( item == caracter ) {
+                        if (item == caracter) {
                             display.value = caracter;
                             return true;
                         }
@@ -196,19 +196,19 @@ function display_add(caracter) {
                     if (debug) console.log('No se puede empezar por algo que no sea un signo o número');
                     return false;
                 }
-                
+
                 if (debug) console.log('display value length: ' + display.value.length);
 
                 // Si el último carácter es un signo, salimos (sólo puede haber un número)
-                for ( let item of signos ) {
-                    if( last_character == item ) {
+                for (let item of signos) {
+                    if (last_character == item) {
                         if (debug) console.log('Tras un signo, sólo puede haber un número');
                         return false;
                     }
                 }
 
                 //si el carácter está repetido
-                if( caracter == last_character ) {
+                if (caracter == last_character) {
                     if (debug) console.log('Omitiendo caracter repetido: ' + last_character);
                     return false;
                 }
@@ -216,13 +216,13 @@ function display_add(caracter) {
 
                 // Recorremos los carácteres válidos
                 for (let item of operadores_decimales) {
-                    
+
                     // Si ya tenemos ese caracter introducido
-                    if ( !calculado && last_character == item) {
-                        
+                    if (!calculado && last_character == item) {
+
                         //comprobamos que no se está introduciendo un signo
                         for (let signos_item of signos) {
-                            if( signos_item == caracter ) {
+                            if (signos_item == caracter) {
                                 display.value = display.value + caracter;
                                 return true;
                             }
@@ -240,8 +240,8 @@ function display_add(caracter) {
 
                 //comprobamos si ya hay algún operador
                 for (let line of operadores) {
-                    
-                    if ( display_value.indexOf(line).length > 0 ) {
+
+                    if (display_value.indexOf(line).length > 0) {
 
                         if (debug) console.log('operador ya en display: ' + line + ' posición:' + display_value.indexOf(line));
                         operator = line;
@@ -291,7 +291,7 @@ function display_add(caracter) {
                 if (debug) console.log('valor decimal: ' + value_decimal);
                 if (debug) console.log('valueSplit: ' + value_split);
 
-                if ( ( (!operator_found && !value_decimal) | (value_decimal && !decimal_found) ) ) {
+                if (((!operator_found && !value_decimal) | (value_decimal && !decimal_found))) {
                     if (debug) console.log('display value: ' + display_value + ' - añadir: ' + caracter);
 
                     calculado = false;
@@ -300,19 +300,19 @@ function display_add(caracter) {
                     if (is_operator) {
 
                         //comprobamos si hay más de 2 líneas
-                        if( display.value.split("\n").length > 1 ) {
-                            
+                        if (display.value.split("\n").length > 1) {
+
                             // calculamos
                             calcular();
-                            
+
                             // volvemos a lanzar esta función para que se evalúe si se tiene que introducir
                             display_add(caracter);
-                            
+
                             return false;
                         }
 
                         display.value = String(display_value) + String("\n" + caracter);
-                    
+
                     } else {
                         display.value = String(display_value) + String(caracter);
                     }
@@ -331,13 +331,13 @@ function display_add(caracter) {
 function calcular() {
 
     // Si no hay nada que calcular, salimos
-    if( display.value.length < 1 ) {
+    if (display.value.length < 1) {
         if (debug) console.log('No hay contenido para calcular.');
         return false;
     }
 
     // Si ya hemos calculado, salimos
-    if( calculado ) {
+    if (calculado) {
         if (debug) console.log('Ya se ha calculado.');
         return false;
     }
@@ -345,17 +345,17 @@ function calcular() {
     if (debug) console.log('línea de cálculo: ' + String(display.value.replace(',', '.')).replace(',', '.'));
 
 
-    
+
     // Evaluamos el contenido reemplazando las comas por puntos
     let resultado = eval(String(display.value.replace(',', '.')).replace(',', '.'));
-    
+
     if (debug) console.log('eval: ' + resultado);
 
     // Insertamos el resultado reemplazando los puntos por comas
     display.value = display.value + "\n" + String(String(resultado).replace('.', ',')).replace('.', ',');
 
-    history += display.value + "\n\n";
-    if (debug) console.log('history: ' + history);
+    history_log += display.value + "\n\n";
+    if (debug) console.log('history: ' + history_log);
 
     calculado = true;
 
@@ -371,7 +371,7 @@ function display_del() {
         display.value = display.value.slice(0, -1);
 
         //comprobamos si el último carácter que queda es un retorno de carro y lo eliminamos
-        while( display.value.charAt(display.value.length - 1) == "\n" ) {
+        while (display.value.charAt(display.value.length - 1) == "\n") {
             display.value = display.value.slice(0, -1);
         }
     } else {
@@ -381,16 +381,16 @@ function display_del() {
 }
 
 // Limpiar display y poner todo a cero
-function ac( history_clear = true ) {
-    
+function ac(history_clear = true) {
+
     key_effect('ac');
-    
+
     display.value = '';
     operator = '';
     calculado = false;
-    
+
     if (history_clear) {
-        history = '';
+        history_log = '';
         document.getElementById('history').classList.remove('active');
     }
 }
@@ -478,31 +478,31 @@ function mmas() {
 
     // Cogemos el último resultado
     let resultados = display.value.split("\n");
-    let resultado = resultados[resultados.length-1];
-    
+    let resultado = resultados[resultados.length - 1];
+
     //Si es número, lo añadimos a la memoria
     if (!isNaN(resultado)) {
-        
+
         memory = Number(memory) + Number(resultado);
-        
+
         //resaltamos el botón
-        key_effect('mmas','red',true);
-        
+        key_effect('mmas', 'red', true);
+
         //Activamos los otros botones
         document.getElementById('mr').classList.remove('disabled');
         document.getElementById('mc').classList.remove('disabled');
-    
-        
+
+
         //activamos el indicador en extras
         document.getElementById('extras_mem').classList.add('active');
-        
-        console.log('memory: ' + memory);
-    } else if(debug){
-        console.log('No se ha podido añadir a memory');
-        console.log('display.value: ' + display.value);
-        console.log('display.value.split: ' + resultados);
-        console.log('resultado: ' + resultado);
-        console.log('memory: ' + memory);
+
+        if (debug) console.log('memory: ' + memory);
+    } else if (debug) {
+        if (debug) console.log('No se ha podido añadir a memory');
+        if (debug) console.log('display.value: ' + display.value);
+        if (debug) console.log('display.value.split: ' + resultados);
+        if (debug) console.log('resultado: ' + resultado);
+        if (debug) console.log('memory: ' + memory);
     }
 
 }
@@ -511,27 +511,27 @@ function mmas() {
 function mr() {
 
     // si está desactivado, salimos
-    if( document.getElementById('mr').classList.contains('disabled') ) {
+    if (document.getElementById('mr').classList.contains('disabled')) {
         return false;
     }
 
-    if(debug) console.log('memory: ' + memory);
+    if (debug) console.log('memory: ' + memory);
 
     //Insertamos el valor de la memoria en el input
-    if( !isNaN(memory) ) {
+    if (!isNaN(memory)) {
 
         // Evaluamos si sería correcto el resultado
-        if( !eval(display.value + memory) ) {
+        if (!eval(display.value + memory)) {
             return false;
         }
-        
+
         key_effect('mr');
-        
+
         // Si hay un resultado calculado, limpiamos antes de insertar
-        if( calculado ) {
-            ac( false );
+        if (calculado) {
+            ac(false);
         }
-        
+
         display.value += memory;
     }
 }
@@ -540,14 +540,14 @@ function mr() {
 function mc() {
 
     // si está desactivado, salimos
-    if( document.getElementById('mc').classList.contains('disabled') ) {
+    if (document.getElementById('mc').classList.contains('disabled')) {
         return false;
     }
-    
+
     memory = 0;
-    
-    key_effect('mmas','red',false);
-    
+
+    key_effect('mmas', 'red', false);
+
     document.getElementById('extras_mem').classList.remove('active');
     document.getElementById('mr').classList.add('disabled');
     document.getElementById('mc').classList.add('disabled');
@@ -565,10 +565,10 @@ function key_effect(key, effect = '', status = true) {
     if (debug) console.log('key_effect: ' + key);
     if (debug) console.log('effect: ' + effect);
 
-    switch( effect ) {
+    switch (effect) {
         case 'red':
             if (debug) console.log('cambiando color');
-            if( status )
+            if (status)
                 document.getElementById(key).classList.add('red');
             else
                 document.getElementById(key).classList.remove('red');
@@ -586,24 +586,24 @@ function key_effect(key, effect = '', status = true) {
  * Ajustar la posición de la calculadora (centrala)
  */
 
- let calculadora = document.getElementById('calculadora');
+let calculadora = document.getElementById('calculadora');
 
- //para reajustar la posición de la calculadora siempre al centro
- function on_resize() {
- 
-     if (debug) console.log('on_resize launched');
- 
-     let calculadora_position = document.getElementById('calculadora').getBoundingClientRect();
- 
-     //Calculamos el alto y centramos:
-     calculadora.style.position = 'absolute';
-     calculadora.style.left = (window.innerWidth - calculadora_position['width']) / 2 + 'px';
-     calculadora.style.top = (window.innerHeight - 26 - calculadora_position['height']) / 2 + 'px';
- 
-     reajusta_modal();
- }
- 
- 
+//para reajustar la posición de la calculadora siempre al centro
+function on_resize() {
+
+    if (debug) console.log('on_resize launched');
+
+    let calculadora_position = document.getElementById('calculadora').getBoundingClientRect();
+
+    //Calculamos el alto y centramos:
+    calculadora.style.position = 'absolute';
+    calculadora.style.left = (window.innerWidth - calculadora_position['width']) / 2 + 'px';
+    calculadora.style.top = (window.innerHeight - 26 - calculadora_position['height']) / 2 + 'px';
+
+    reajusta_modal();
+}
+
+
 /**
  * Modal
  */
@@ -632,7 +632,7 @@ function show_modal(header, body) {
 
     //cabecera
     document.getElementById('modal-title').innerHTML = header;
-    
+
     //cuerpo
     document.getElementById('modal-body').innerHTML = body;
 
@@ -650,12 +650,16 @@ function show_modal(header, body) {
 
 function show_history() {
 
+    if (!document.getElementById('history').classList.contains('active')) {
+        return false;
+    }
+
     let header = 'Historial';
     let body = '<pre id="history_data">Sin historial</pre>';
 
     //si hay historial, actualizamos body
-    if (history) {
-        body = '<pre id="history_data">' + history + '</pre>';
+    if (history_log != '') {
+        body = '<pre id="history_data">' + history_log + '</pre>';
     }
 
     show_modal(header, body);
@@ -664,16 +668,16 @@ function show_history() {
 /**
  * Información
  */
- function show_info() {
-    
+function show_info() {
+
     let header = 'Acerca de';
-    let body =    '<p style="margin-top: 0;">Disfrute de un nuevo fondo cada vez que cargue la página.</p>' 
-                + '<p style="margin-bottom: 0;">Aprecie las transiciones:</p>'
-                    + '<ul style="margin-top: 0;"><li>Al cargar la página.</li><li>Al redimensionar.</li><li>El corazón de la barra inferior.</li><li>Al mostrar este modal.</li><li>Y otras más...</li></ul>'
-                + '<p>Puede utilizar el ratón pero, para su comodidad, utilice el teclado (la tecla retroceso borra &#128521;).</p>'
-                + '<p><a href="https://github.com/micarsan/entorno-cliente-calculadora">Código en github</a><br><a href="http://miguelcarmona.com">Sobre mi</a></p>'
-                + '<p>Licencia MIT.</p>'
-                + '<p>Imágenes con <a href="https://unsplash.com/es/licencia">licencia copyleft unsplash</a>.</p>';
+    let body = '<p style="margin-top: 0;">Disfrute de un nuevo fondo cada vez que cargue la página.</p>'
+        + '<p style="margin-bottom: 0;">Aprecie las transiciones:</p>'
+        + '<ul style="margin-top: 0;"><li>Al cargar la página.</li><li>Al redimensionar.</li><li>El corazón de la barra inferior.</li><li>Al mostrar este modal.</li><li>Y otras más...</li></ul>'
+        + '<p>Puede utilizar el ratón pero, para su comodidad, utilice el teclado (la tecla retroceso borra &#128521;).</p>'
+        + '<p><a href="https://github.com/micarsan/entorno-cliente-calculadora">Código en github</a><br><a href="http://miguelcarmona.com">Sobre mi</a></p>'
+        + '<p>Licencia MIT.</p>'
+        + '<p>Imágenes con <a href="https://unsplash.com/es/licencia">licencia copyleft unsplash</a>.</p>';
 
     show_modal(header, body);
 }
@@ -719,9 +723,9 @@ function change_background_image() {
     //Generamos un entero aleatorio entre 0 y 17 (tenemos 18 imágenes contando la 00)
     var random = Math.floor(Math.random() * 18);
     if (random < 10) random = '0' + random;
-    console.log('random: ' + random);
+    if (debug) console.log('random: ' + random);
 
-    console.log('background-image: url("css/img/bg0' + random + '.webp")');
+    if (debug) console.log('background-image: url("css/img/bg0' + random + '.webp")');
 
     document.getElementById('loading').style["background-image"] = 'url("css/img/bg' + random + '.webp")';
 
