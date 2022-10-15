@@ -4,15 +4,21 @@
     "start_url": "./",
     "scope": "./",
     "display": "standalone",
-    "theme_color": "#000",
+    "theme_color": "#01b0eb",
     "background_color": "#000",
     "orientation": "portrait",
     "description": "Calculadora simple hecha por Miguel Carmona",
-    "icons": [{
-            "src": "./icon_512.png",
+    "icons": [
+        {
+            "src": "./icon512.png",
             "sizes": "512x512",
             "type": "image/png"
-    }],
-    "protocol_handlers": [{
-    }]
+        },{
+            "src": "./icon.svg",
+            "type": "image/svg+xml"
+        }
+    ],
+    "protocol_handlers": [
+        {}
+    ]
 }

@@ -1,5 +1,5 @@
-let debug = false; //define si muestra mensajes de depuración en console.log
-
+let debug = false; // define si muestra mensajes de depuración en console.log
+let bg_randoms = false; // Activa que muestre un fondo aleatorio al cargar
 
 /*  No tocar a partir de aquí */
 
@@ -51,7 +51,23 @@ window.addEventListener("resize", on_resize);
 function windows_load() {
 
     // Cargamos fondo y transiciones
-    change_background_image();
+    if( bg_randoms ) change_background_image();
+
+    /// Animaciones de carga de contenido
+    setTimeout(() => {
+        document.getElementById('black').classList.add('close');
+    }, 50);
+    setTimeout(() => {
+        document.getElementById('black').style.display = 'none';
+    }, 350);
+
+    setTimeout(() => {
+        document.getElementById('loading').classList.add('close');
+    }, 200);
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+    }, 700);
+    
 
     // Ajustamos al centro centro el contenido
     on_resize();
@@ -728,23 +744,6 @@ function change_background_image() {
     if (debug) console.log('background-image: url("css/img/bg0' + random + '.webp")');
 
     document.getElementById('loading').style["background-image"] = 'url("css/img/bg' + random + '.webp")';
-
-
-    /// Animaciones de carga de contenido
-
-    setTimeout(() => {
-        document.getElementById('black').classList.add('close');
-    }, 50);
-    setTimeout(() => {
-        document.getElementById('black').style.display = 'none';
-    }, 350);
-
-    setTimeout(() => {
-        document.getElementById('loading').classList.add('close');
-    }, 200);
-    setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-    }, 700);
 
     document.body.style["background-image"] = 'url("css/img/bg' + random + '.webp")';
 }
