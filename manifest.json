@@ -1,0 +1,18 @@
+{
+    "name": "Calculadora MC",
+    "short_name": "calculadoraMC",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "theme_color": "#000",
+    "background_color": "#000",
+    "orientation": "portrait",
+    "description": "Calculadora simple hecha por Miguel Carmona",
+    "icons": [{
+            "src": "./icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+    }],
+    "protocol_handlers": [{
+    }]
+}

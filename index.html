@@ -5,12 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/general.css?v1.15" />
+    <link rel="manifest" href="manifest.json">
+    <script type="text/javascript">
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js");
+        }
+    </script>
 </head>
 
 <body id="body">
     <div id="black" class="full_size"></div>
     <div id="loading" class="full_size"></div>
-        <!-- Modal -->
+    <!-- Modal -->
     <div id="modal" class="full_size modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,7 +35,8 @@
                     <span style="width: 25px;"> </span>
                     <span><a id="extras_mem">MEM</a></span>
                     <span class="right">
-                        <a id="info" class="extras-simbols" href="javascript:show_info()"><img class="invert" src="css/img/information-icon.svg" width="15" /></a>
+                        <a id="info" class="extras-simbols" href="javascript:show_info()"><img class="invert"
+                                src="css/img/information-icon.svg" width="15" /></a>
                     </span>
                     <span class="right">
                         <a id="history" href="javascript:show_history()">
@@ -67,8 +74,11 @@
     </div>
 
     <footer>
-        <a><h3>with <span></span> by Miguel Carmona</h3></a>
+        <a>
+            <h3>with <span></span> by Miguel Carmona</h3>
+        </a>
     </footer>
 </body>
 <script src="js/basic-functions.js?v1.15" type="text/javascript"></script>
+
 </html>

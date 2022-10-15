@@ -22,6 +22,7 @@
 
 ## Detalles
 
+* Progressive Web App
 * Hecha completamente en HTML, CSS y JS **sin ninguna librería adicional** (para mejorar más aún el aprendizaje).
 * Efectos y transiciones agradables a la interacción de usuario
 * Fondos distintos al cargar
