@@ -9,7 +9,7 @@
     "orientation": "portrait",
     "description": "Calculadora simple hecha por Miguel Carmona",
     "icons": [{
-            "src": "./icon-512.png",
+            "src": "./icon_512.png",
             "sizes": "512x512",
             "type": "image/png"
     }],
