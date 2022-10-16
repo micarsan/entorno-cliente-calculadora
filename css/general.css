@@ -8,6 +8,11 @@ body {
     background-attachment: fixed;
     background-size: cover;
     background-color: #01b0eb;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select:none;
 }
 
 a {
@@ -132,6 +137,12 @@ img.invert {
     resize: none;
     overflow: auto;
     background-color: transparent;
+    user-select: auto;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -khtml-user-select: auto;
+    -ms-user-select:auto;
+
 }
 
 #calculadora button {
