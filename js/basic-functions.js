@@ -1,5 +1,4 @@
 let debug = false; // define si muestra mensajes de depuración en console.log
-let bg_randoms = false; // Activa que muestre un fondo aleatorio al cargar
 
 /*  No tocar a partir de aquí */
 
@@ -49,9 +48,6 @@ window.addEventListener("resize", on_resize);
 
 //ejecuciones cuando cargue la página
 function windows_load() {
-
-    // Cargamos fondo y transiciones
-    if( bg_randoms ) change_background_image();
 
     /// Animaciones de carga de contenido
     setTimeout(() => {
@@ -729,29 +725,3 @@ function new_window() {
         'width=' + width + ',height=' + height
     );
 }
-
-
-/**
- * Cambios de imagen de fondo (con transiciones)
- */
-function change_background_image() {
-
-    let images = [
-        'https://images.unsplash.com/photo-1664892056164-a35ee80e5c91?fit=crop&h=1000&q=80',
-        'https://images.unsplash.com/photo-1645474886991-032013802da0?fit=crop&w=1000&q=70',
-        'https://images.unsplash.com/photo-1663875919989-62c9fa1d2da7',
-        'https://images.unsplash.com/photo-1663930981910-7a4c077feb85'
-    ];
-
-    //Generamos un entero aleatorio entre 0 y 17 (tenemos 18 imágenes contando la 00)
-    var random = Math.floor(Math.random() * 18);
-    if (random < 10) random = '0' + random;
-    if (debug) console.log('random: ' + random);
-
-    if (debug) console.log('background-image: url("css/img/bg0' + random + '.webp")');
-
-    document.getElementById('loading').style["background-image"] = 'url("css/img/bg' + random + '.webp")';
-
-    document.body.style["background-image"] = 'url("css/img/bg' + random + '.webp")';
-}
-
