@@ -150,6 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     key_effect('igual');
                     igual();
                     break;
+                case 'm':
+                    key_effect('mmas');
+                    mmas();
+                    break;
+                case 'r':
+                    key_effect('mr');
+                    mr();
+                    break;
+                case 'c':
+                    key_effect('mc');
+                    mc();
+                    break;
             }
         }
     });
@@ -534,6 +546,10 @@ function mmas() {
 
     // Calculamos lo que haya en pantalla
     calcular();
+
+    // Si no hay nada en pantalla o es 0, salimos
+    if( display.value == '' | display.value == 0 )
+        return false;
 
     // Cogemos el último resultado
     let resultados = display.value.split("\n");
