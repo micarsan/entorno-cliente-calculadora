@@ -93,8 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(keys_functions[key]).addEventListener("mousedown", function(){
             mouse_down(keys_functions[key]);
         });
+        document.getElementById(keys_functions[key]).addEventListener("touchstart", function(){
+            mouse_down(keys_functions[key]);
+        });
         
         document.getElementById(keys_functions[key]).addEventListener("mouseup", function() {
+            pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
+        });
+        document.getElementById(keys_functions[key]).addEventListener("touchend", function() {
             pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
         });
         
