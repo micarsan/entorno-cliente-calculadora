@@ -1,10 +1,11 @@
-let debug = false; // define si muestra mensajes de depuración en console.log
+let debug = true; // define si muestra mensajes de depuración en console.log
 
 /*  No tocar a partir de aquí */
 
 var calculado = false; // Para saber si se está mostrando el resultado
 var history_log = ''; // Guarda el historial de operaciones
 var memory = 0; // Guarda la memoria m+ 
+var pulsed = {}; //array donde guardamos el instante en el que se pulsa un botón en pantalla (para hacer repetición)
 
 const operadores = ['+', '*', '/']; //operadores
 const signos = ['-']; //signos
@@ -89,7 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Recorremos keys_functions y generamos un evento para cada button
     for (let key of Object.keys(keys_functions)) {
-        document.getElementById(keys_functions[key]).addEventListener("click", window[keys_functions[key]]);
+        document.getElementById(keys_functions[key]).addEventListener("mousedown", function(){
+            mouse_down(keys_functions[key]);
+        });
+        
+        document.getElementById(keys_functions[key]).addEventListener("mouseup", function() {
+            pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
+        });
+        
         if (debug) console.log('Key registrada: ' + keys_functions[key]);
     }
 
@@ -136,6 +144,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Al pulsar un botón en pantalla
+function mouse_down( boton ) {
+    if (debug) console.log('botón pulsado: ' + boton);
+    
+    // ejecutamos la función correspondiente
+    window[boton]();
+    
+    // a los 600ms, llamamos a la función para que controle los tiempos de repetición
+    pulsed[boton] = true; // marcamos como pulsado el botón
+    setTimeout(() => {
+        key_pulsed(boton);
+    }, 600);
+}
+
+// Repite un caracter si se mantiene pulsado el botón en pantalla
+function key_pulsed( boton ) {
+
+    // comprobamos si se sigue pulsando
+    if( pulsed[boton] ) {
+        if (debug) console.log('botón mantenido: ' + boton);
+        window[boton]();
+        
+        //llamamos recursivamente a la función cada 100ms
+        setTimeout(() => {
+            key_pulsed(boton);
+        }, 50);
+    }
+}
 
 
 // Añade un valor al display
