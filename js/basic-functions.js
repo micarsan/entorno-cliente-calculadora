@@ -548,7 +548,7 @@ function mmas() {
     calcular();
 
     // Si no hay nada en pantalla o es 0, salimos
-    if( display.value == '' | display.value == 0 )
+    if( display.value == '' | eval(display.value) == 0 )
         return false;
 
     // Cogemos el último resultado
