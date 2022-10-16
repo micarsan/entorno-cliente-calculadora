@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Generamos eventos para el teclado
-    document.body.addEventListener('keyup', (e) => {
-        if (debug) console.log(`Tecla "${e.key}" liberada [event: keyup]`);
+    document.body.addEventListener('keydown', (e) => {
+        if (debug) console.log(`Tecla "${e.key}" pulsada [event: keydown]`);
 
         if (!isNaN(e.key)) { //si es un número, lo añadimos
             display_add(e.key);
