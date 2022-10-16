@@ -186,7 +186,7 @@ header { grid-area: header; }
 footer {
     position: fixed;
     bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.80);
+    background-color: rgba(0, 0, 0, 0.65);
     width: 100%;
     text-align: center;
 }
@@ -194,7 +194,7 @@ footer {
 footer h3 {
     display: inline-block;
     margin: 5px;
-    color: rgba(255, 255, 255, 0.614);
+    color: rgba(255, 255, 255, 0.85);
     font-size: 0.9em;
     font-weight: 300;
 }
