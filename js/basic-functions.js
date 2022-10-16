@@ -90,16 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Recorremos keys_functions y generamos un evento para cada button
     for (let key of Object.keys(keys_functions)) {
-        document.getElementById(keys_functions[key]).addEventListener("mousedown", function(){
-            mouse_down(keys_functions[key]);
-        });
+        if( !is_touch_device() ) {
+            document.getElementById(keys_functions[key]).addEventListener("mousedown", function(){
+                mouse_down(keys_functions[key]);
+            });
+        }
         document.getElementById(keys_functions[key]).addEventListener("touchstart", function(){
             mouse_down(keys_functions[key]);
         });
         
-        document.getElementById(keys_functions[key]).addEventListener("mouseup", function() {
-            pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
-        });
+        if( !is_touch_device() ) {
+            document.getElementById(keys_functions[key]).addEventListener("mouseup", function() {
+                pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
+            });
+        }
         document.getElementById(keys_functions[key]).addEventListener("touchend", function() {
             pulsed[keys_functions[key]] = false; // desmarcamos como pulsado el botón
         });
@@ -767,4 +771,15 @@ function new_window() {
         'Calculadora' + Date.now(),
         'width=' + width + ',height=' + height
     );
+}
+
+
+/**
+ * Detecta si es un dispositivo táctil
+ * fuente: https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+*/
+function is_touch_device() {
+    return ( 'ontouchstart' in window ) ||
+           ( navigator.maxTouchPoints > 0 ) ||
+           ( navigator.msMaxTouchPoints > 0 );
 }
