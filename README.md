@@ -4,7 +4,7 @@
 </h1>
 
 <h4 align="center">Una calculadora creada sobre javascript, css y html para aprendizaje con js en DAW.</h4>
-<p align="center">Por favor, mi actual nivel de programación en js es bastante moderado. Utilice este código con cuidado.</p>
+<p align="center">Por favor, mi actual nivel de programación en js es bastante moderado. ¡Utilice este código con cuidado!</p>
 
 
 <p align="center">
