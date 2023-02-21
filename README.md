@@ -30,7 +30,7 @@
 * Diseño responsive
 
 ## Demo
-<a href="https://daw.miguelcarmona.com/calculadora">https://daw.miguelcarmona.com/calculadora</a>
+<a href="https://daw.miguelcarmona.com/entorno-cliente-calculadora">https://daw.miguelcarmona.com/entorno-cliente-calculadora</a>
 
 ## Autor
 
